@@ -241,6 +241,7 @@ class ObjectField extends Component {
               name={name}
               required={this.isRequired(name)}
               schema={schema.properties[name]}
+              propertyNamesSchema={schema.propertyNames}
               uiSchema={fieldUiSchema}
               errorSchema={errorSchema[name]}
               idSchema={idSchema[name]}
