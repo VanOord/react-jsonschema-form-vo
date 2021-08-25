@@ -81,7 +81,7 @@ class LabelInput extends React.Component {
   render() {
     const { id, label, onChange, schema, registry } = this.props;
 
-    if (!schema) {
+    if (!schema && !registry.rootSchema.propertyNames) {
       return (
         <input
           className="form-control"
@@ -95,7 +95,7 @@ class LabelInput extends React.Component {
 
     return (
       <SchemaField
-        schema={schema}
+        schema={schema || registry.rootSchema.propertyNames}
         formData={this.state.value}
         registry={registry}
         onChange={value => this.setState({ value })}
