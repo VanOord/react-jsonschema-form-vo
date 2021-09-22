@@ -79,27 +79,26 @@ class LabelInput extends React.Component {
     };
   }
   render() {
-    const { id, label, onChange, schema, registry } = this.props;
+    const { id, label, onChange, propertyNames, registry } = this.props;
 
-    if (!schema && !registry.rootSchema.propertyNames) {
+    if (propertyNames) {
       return (
-        <input
-          className="form-control"
-          type="text"
-          id={id}
-          onBlur={event => onChange(event.target.value)}
-          defaultValue={label}
+        <SchemaField
+          schema={propertyNames}
+          formData={this.state.value}
+          registry={registry}
+          onChange={value => this.setState({ value })}
+          onBlur={(id, value) => onChange(value)}
         />
       );
     }
-
     return (
-      <SchemaField
-        schema={schema || registry.rootSchema.propertyNames}
-        formData={this.state.value}
-        registry={registry}
-        onChange={value => this.setState({ value })}
-        onBlur={(id, value) => onChange(value)}
+      <input
+        className="form-control"
+        type="text"
+        id={id}
+        onBlur={event => onChange(event.target.value)}
+        defaultValue={label}
       />
     );
   }
@@ -232,6 +231,8 @@ function WrapIfAdditional(props) {
               registry={props.registry}
               id={`${id}-key`}
               onChange={onKeyChange}
+              propertyNames={props.propertyNames}
+              registry={props.registry}
             />
           </div>
         </div>
@@ -267,7 +268,6 @@ function SchemaFieldRender(props) {
     required,
     registry = getDefaultRegistry(),
     wasPropertyKeyModified = false,
-    propertyNamesSchema,
   } = props;
   const { rootSchema, fields, formContext } = registry;
   const FieldTemplate =
@@ -329,6 +329,7 @@ function SchemaFieldRender(props) {
   const errors = __errors;
   const help = uiSchema["ui:help"];
   const hidden = uiSchema["ui:widget"] === "hidden";
+  const { propertyNames } = props;
   const classNames = [
     "form-group",
     "field",
@@ -369,6 +370,7 @@ function SchemaFieldRender(props) {
     schema,
     uiSchema,
     registry,
+    propertyNames,
   };
 
   const _AnyOfField = registry.fields.AnyOfField;

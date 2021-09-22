@@ -259,6 +259,7 @@ class ObjectField extends Component {
               disabled={disabled}
               readonly={readonly}
               onDropPropertyClick={this.onDropPropertyClick}
+              propertyNames={schema.propertyNames}
             />
           ),
           name,
